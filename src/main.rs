@@ -1,10 +1,10 @@
 use axum::{
-    response::Html, routing::get,  Router
+    response::Html, routing::{get, post},  Router
 };
 
 mod vehicle;
 
-use vehicle::{vehice_post, vehicle_get};
+use vehicle::{vehice_post, vehicle_get, vehice_post_query};
 
 
 #[tokio::main]
@@ -14,7 +14,8 @@ async fn main() {
         .route("/", get(handler))
         .route("/vehice", 
         get(vehicle_get)
-                      .post(vehice_post)); 
+                      .post(vehice_post))
+        .route("/vehiceQuery", post(vehice_post_query)); 
 
     // 2. Define the IP and port listener (TCP)
     let address = "0.0.0.0:4000";
