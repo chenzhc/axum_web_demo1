@@ -14,7 +14,18 @@ pub struct Vehice {
     id: Option<String>,
 }
 
-pub async fn vehice_post_query(Query(mut v): Query<Vehice>) -> Json<Vehice> {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Customer {
+    #[serde(default, rename="first_name")]
+    first_name: String,
+    #[serde(default, rename="last_name")]
+    last_name: String,
+}
+
+pub async fn vehice_post_query(Query(mut v): Query<Vehice>,
+                               Query(c):Query<Customer>) -> Json<Vehice> {
+    println!("Customer first name: {0}, last name: {1}", c.first_name, c.last_name);
+    println!("manufacturer: {0}, mode:{1}, year: {2}",v.manufacturer,v.model,v.year);                           
     v.id = Some(uuid::Uuid::new_v4().to_string());
 
     Json::from(v)
